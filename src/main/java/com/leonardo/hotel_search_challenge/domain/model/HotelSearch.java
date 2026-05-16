@@ -1,8 +1,9 @@
 package com.leonardo.hotel_search_challenge.domain.model;
 
+import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 public record HotelSearch(
         String hotelId,
@@ -13,20 +14,20 @@ public record HotelSearch(
 
     public HotelSearch {
         //Validaciones para "hotelId"
-        Objects.requireNonNull(hotelId, "El campo 'hotelId' no puede ser nulo");
-        if(hotelId.isBlank()) throw new IllegalArgumentException("El campo 'hotelId' no puede estar vacío");
+        if(hotelId == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelId'"));
+        if(hotelId.isBlank()) throw new IllegalArgumentException(GlobalMessages.BLANK_OR_EMPTY_FIELD_MESSAGE_ERROR.formatted("'hotelId'"));
 
         //Validaciones para "checkIn" y "checkOut"
-        Objects.requireNonNull(checkIn, "El campo 'checkIn' no puede ser nulo");
-        Objects.requireNonNull(checkOut, "El campo 'checkOut' no puede ser nulo");
-        if(!checkIn.isBefore(checkOut)) throw new IllegalArgumentException("El checkIn debe ser anterior al checkOut");
+        if(checkIn == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'checkIn'"));
+        if(checkOut == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'checkOut'"));
+        if(!checkIn.isBefore(checkOut)) throw new IllegalArgumentException(GlobalMessages.CHECK_IN_BEFORE_CHECK_OUT_MESSAGE_ERROR);
 
         //Validaciones para "ages"
-        Objects.requireNonNull(ages, "El campo 'ages' no puede ser nulo");
-        if(ages.isEmpty()) throw new IllegalArgumentException("El campo 'ages' no puede estar vacío");
+        if(ages == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'ages'"));
+        if(ages.isEmpty()) throw new IllegalArgumentException(GlobalMessages.BLANK_OR_EMPTY_FIELD_MESSAGE_ERROR.formatted("'ages'"));
         for(Integer age : ages){
-            Objects.requireNonNull(age, "Las edades dentro del campo 'ages' no pueden ser nulas");
-            if(age < 0) throw new IllegalArgumentException("Las edades dentro del campo 'ages' deben ser mayores o iguales a 0");
+            if(age == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'age' del listado 'ages'"));
+            if(age < 0) throw new IllegalArgumentException(GlobalMessages.NEGATIVE_FIELD_MESSAGE_ERROR.formatted("'age' del listado 'ages'"));
         }
 
         //Copia defensiva de "ages"

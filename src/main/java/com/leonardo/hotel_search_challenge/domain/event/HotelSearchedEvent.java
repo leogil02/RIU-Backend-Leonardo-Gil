@@ -1,9 +1,9 @@
 package com.leonardo.hotel_search_challenge.domain.event;
 
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
+import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 
 public record HotelSearchedEvent(
@@ -14,9 +14,9 @@ public record HotelSearchedEvent(
 
     public HotelSearchedEvent{
         //Validaciones de nulos
-        Objects.requireNonNull(searchId, "El campo 'searchId' no puede ser nulo");
-        Objects.requireNonNull(hotelSearch, "El campo 'hotelSearch' no puede ser nulo");
-        Objects.requireNonNull(timestamp, "El campo 'timestamp' no puede ser nulo");
+        if(searchId == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
+        if(hotelSearch == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
+        if(timestamp == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'timestamp'"));
     }
 
     public static HotelSearchedEvent create(HotelSearch hotelSearch){

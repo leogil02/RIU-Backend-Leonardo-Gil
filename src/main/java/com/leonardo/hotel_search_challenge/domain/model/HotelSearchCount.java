@@ -1,6 +1,7 @@
 package com.leonardo.hotel_search_challenge.domain.model;
 
-import java.util.Objects;
+import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
+
 import java.util.UUID;
 
 public record HotelSearchCount(
@@ -11,10 +12,10 @@ public record HotelSearchCount(
 
     public HotelSearchCount{
         //Validaciones de nulos
-        Objects.requireNonNull(searchId, "El campo 'searchId' no puede ser nulo");
-        Objects.requireNonNull(search, "El campo 'search' no puede ser nulo");
+        if(searchId == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
+        if(search == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'search'"));
         //Validación "count" no puede ser negativo
-        if (count < 0) throw new IllegalArgumentException("El campo 'count' no puede ser menor a 0");
+        if (count < 0) throw new IllegalArgumentException(GlobalMessages.NEGATIVE_FIELD_MESSAGE_ERROR.formatted("'count'"));
     }
 
 }
