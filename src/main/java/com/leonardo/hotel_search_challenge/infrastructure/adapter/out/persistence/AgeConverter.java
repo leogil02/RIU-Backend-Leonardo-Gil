@@ -2,12 +2,14 @@ package com.leonardo.hotel_search_challenge.infrastructure.adapter.out.persisten
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Converter
+@Component
 public class AgeConverter implements AttributeConverter<List<Integer>, String> {
 
     private static final String SEPARATOR = ",";

@@ -27,7 +27,7 @@ public class PersistedHotelSearchRepositoryAdapter implements PersistedHotelSear
 
     @Override
     public long countMatching(HotelSearch hotelSearch) {
-        return repository.countByHotelIdAndCheckInAndCheckOutAndAges(
+        return repository.countMatching(
                hotelSearch.hotelId(),
                hotelSearch.checkIn(),
                hotelSearch.checkOut(),
