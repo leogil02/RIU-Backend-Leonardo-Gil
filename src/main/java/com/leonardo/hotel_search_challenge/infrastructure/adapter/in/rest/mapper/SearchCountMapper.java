@@ -5,7 +5,7 @@ import com.leonardo.hotel_search_challenge.domain.model.HotelSearchCount;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchCountResponse;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchView;
 
-public class SearchCountMapper {
+public final class SearchCountMapper {
 
     private SearchCountMapper(){}
 

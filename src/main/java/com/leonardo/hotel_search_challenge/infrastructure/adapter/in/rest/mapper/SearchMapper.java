@@ -6,7 +6,7 @@ import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.Se
 
 import java.util.UUID;
 
-public class SearchMapper {
+public final class SearchMapper {
 
     private SearchMapper(){}
 
