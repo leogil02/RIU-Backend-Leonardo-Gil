@@ -11,13 +11,13 @@ import java.util.UUID;
 @Repository
 public interface SpringDataPersistedHotelSearchRepository extends JpaRepository<PersistedHotelSearchEntity, UUID> {
 
-    @Query("""
-        SELECT COUNT(e) FROM PersistedHotelSearchEntity e
-        WHERE e.hotelId=:hotelId
-        AND e.checkIn=:checkIn
-        AND e.checkOut=:checkOut
-        AND e.ages=:ages
-    """)
+    @Query(value = """
+        SELECT COUNT(*) FROM hotel_searches
+        WHERE hotel_id=:hotelId
+        AND check_in=:checkIn
+        AND check_out=:checkOut
+        AND ages=:ages
+    """, nativeQuery = true)
     long countMatching(
             @Param("hotelId") String hotelId,
             @Param("checkIn") LocalDate checkIn,
