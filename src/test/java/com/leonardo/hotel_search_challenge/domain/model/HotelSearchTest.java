@@ -1,5 +1,6 @@
 package com.leonardo.hotel_search_challenge.domain.model;
 
+import static com.leonardo.hotel_search_challenge.TestData.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,20 +11,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HotelSearchTest {
-
-    //Valores exitosos
-
-    private static final String HOTEL_ID = "1234aBc";
-    private static final LocalDate CHECK_IN = LocalDate.of(2023, 12, 29);
-    private static final LocalDate CHECK_OUT = LocalDate.of(2023, 12, 31);
-    private static final List<Integer> AGES = List.of(30,29,1,3);
 
     //Construcción exitosa del objeto
 
