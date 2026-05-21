@@ -9,6 +9,7 @@ import com.leonardo.hotel_search_challenge.infrastructure.adapter.out.persistenc
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,5 +32,10 @@ public final class TestData {
     public static final HotelSearchedEvent HOTEL_SEARCHED_EVENT = new HotelSearchedEvent(SEARCH_ID, HOTEL_SEARCH, OCCURRED_AT);
     public static final HotelSearchCount HOTEL_SEARCH_COUNT = new HotelSearchCount(SEARCH_ID, HOTEL_SEARCH, COUNT);
     public static final SearchRequest SEARCH_REQUEST = new SearchRequest(HOTEL_ID, CHECK_IN, CHECK_OUT, AGES);
+    public static final SearchRequest SEARCH_REQUEST_WITH_SAME_AGES_SORTED = new SearchRequest(HOTEL_ID, CHECK_IN, CHECK_OUT, List.of(29,30,3,1));
+
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final String CHECK_IN_FORMATTED = CHECK_IN.format(DATE_TIME_FORMATTER);
+    public static final String CHECK_OUT_FORMATTED = CHECK_OUT.format(DATE_TIME_FORMATTER);
 
 }
