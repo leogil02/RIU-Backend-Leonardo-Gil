@@ -4,6 +4,7 @@ import com.leonardo.hotel_search_challenge.application.port.in.SaveSearchUseCase
 import com.leonardo.hotel_search_challenge.application.port.out.PersistedHotelSearchRepository;
 import com.leonardo.hotel_search_challenge.domain.model.PersistedHotelSearch;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SaveSearchService implements SaveSearchUseCase {
@@ -14,6 +15,7 @@ public class SaveSearchService implements SaveSearchUseCase {
         this.persistedHotelSearchRepository = persistedHotelSearchRepository;
     }
 
+    @Transactional
     @Override
     public void save(PersistedHotelSearch search) {
         persistedHotelSearchRepository.save(search);
