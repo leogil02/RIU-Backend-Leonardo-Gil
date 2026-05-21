@@ -5,6 +5,7 @@ import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearchCount;
 import com.leonardo.hotel_search_challenge.domain.model.PersistedHotelSearch;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchRequest;
+import com.leonardo.hotel_search_challenge.infrastructure.adapter.out.persistence.PersistedHotelSearchEntity;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,6 +27,7 @@ public final class TestData {
     public static final long COUNT = 100L;
     public static final HotelSearch HOTEL_SEARCH = new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_OUT, AGES);
     public static final PersistedHotelSearch PERSISTED_HOTEL_SEARCH = new PersistedHotelSearch(SEARCH_ID, HOTEL_SEARCH, OCCURRED_AT);
+    public static final PersistedHotelSearchEntity PERSISTED_HOTEL_SEARCH_ENTITY = new PersistedHotelSearchEntity(SEARCH_ID, HOTEL_ID, CHECK_IN, CHECK_OUT, AGES, OCCURRED_AT);
     public static final HotelSearchedEvent HOTEL_SEARCHED_EVENT = new HotelSearchedEvent(SEARCH_ID, HOTEL_SEARCH, OCCURRED_AT);
     public static final HotelSearchCount HOTEL_SEARCH_COUNT = new HotelSearchCount(SEARCH_ID, HOTEL_SEARCH, COUNT);
     public static final SearchRequest SEARCH_REQUEST = new SearchRequest(HOTEL_ID, CHECK_IN, CHECK_OUT, AGES);
