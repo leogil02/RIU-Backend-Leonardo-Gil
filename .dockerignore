@@ -1,0 +1,40 @@
+# Build artifacts
+target/
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Logs
+*.log
+
+# Tests (no necesarios en producción)
+src/test/
+
+# Documentación
+README.md
+docs/
+
+# Secrets
+.env

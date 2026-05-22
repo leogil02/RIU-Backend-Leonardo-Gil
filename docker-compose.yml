@@ -1,4 +1,22 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hotel-search-challenge-app
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      ORACLE_HOST: oracle-db
+      ORACLE_APP_USER: ${ORACLE_APP_USER}
+      ORACLE_APP_USER_PWD: ${ORACLE_APP_USER_PWD}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+
   oracle-db:
     image: gvenzl/oracle-free:23-slim
     container_name: hotel-search-challenge-oracle-db
