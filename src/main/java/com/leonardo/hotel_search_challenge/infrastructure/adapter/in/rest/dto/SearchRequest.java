@@ -10,6 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 
+@Schema(description = "Criterios de búsqueda de un hotel")
 public record SearchRequest(
         @NotBlank(message = "El campo 'hotelId' no puede estar vacío")
         @Schema(example = "1234aBc")

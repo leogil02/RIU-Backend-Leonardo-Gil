@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import java.time.Instant;
 import java.util.List;
 
+@Schema(description = "Respuesta estándar para errores")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ErrorResponse(
 
@@ -20,6 +21,7 @@ public record ErrorResponse(
         String message,
         List<FieldError> fieldErrors
 ) {
+    @Schema(description = "Detalle de un error de validación específico para un campo del request")
     public record FieldError(
             @Schema(example = "hotelId")
             String field,

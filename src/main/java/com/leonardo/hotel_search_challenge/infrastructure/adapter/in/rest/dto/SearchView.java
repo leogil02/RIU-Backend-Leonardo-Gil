@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.util.List;
 
+@Schema(description = "Representación de los criterios de una búsqueda ya registrada")
 public record SearchView(
         @Schema(example = "1234aBc")
         String hotelId,
