@@ -5,6 +5,7 @@ import com.leonardo.hotel_search_challenge.application.port.in.SearchHotelUseCas
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchCountResponse;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchRequest;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.dto.SearchResponse;
+import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.exception.ErrorResponse;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.mapper.SearchCountMapper;
 import com.leonardo.hotel_search_challenge.infrastructure.adapter.in.rest.mapper.SearchMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
