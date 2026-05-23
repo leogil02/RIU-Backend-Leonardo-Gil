@@ -2,6 +2,8 @@
 
 ![Java](https://img.shields.io/badge/Java-25-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.6-green)
+![CI](https://github.com/leogil02/RIU-Backend-Leonardo-Gil/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/leogil02/RIU-Backend-Leonardo-Gil/branch/main/graph/badge.svg)](https://codecov.io/gh/leogil02/RIU-Backend-Leonardo-Gil)
 
 API REST para registrar búsquedas de hoteles y consultar la cantidad de coincidencias de búsquedas.
 
