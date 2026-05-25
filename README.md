@@ -99,8 +99,14 @@ cd RIU-Backend-Leonardo-Gil
 
 **2. Copiar las variables de entorno:**
 
+En Linux, macOS, Git Bash, PowerShell
 ```bash
 cp .env.example .env
+```
+
+En Windows CMD:
+```bash
+copy .env.example .env
 ```
 
 El archivo `.env.example` ya tiene valores por defecto que funcionan sin modificación. Se pueden cambiar por los valores que se deseen pero esas variables deben tener valores obligatoriamente.
@@ -108,10 +114,22 @@ El archivo `.env.example` ya tiene valores por defecto que funcionan sin modific
 **3. Levantar todos los servicios:**
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
-Luego de realizar ese comando, esperar a que todos los servicios estén levantados y con estado "healthy".
+Luego de realizar ese comando, esperar a que todos los servicios estén creados y que los servicios de `kafka` y `oracle-db` estén en estado `healthy`.
+
+**4. Detener todos los servicios:**
+
+```bash
+docker-compose down
+```
+
+Si quiere también borrar los volúmenes de Kafka y Oracle debe ejecutar el siguiente comando:
+
+```bash
+docker-compose down -v
+```
 
 ---
 
@@ -240,3 +258,14 @@ Los tests IT usan Testcontainers para levantar Oracle y Kafka reales en Docker. 
 | 3 | Runtime | Imagen final sólo con JRE |
 
 De esta forma, se aprovecha el caché de Docker. Si sólo se cambia código fuente (y no se modifica el pom.xml), Docker reusa la capa de dependencias y el build es mucha más rápido.
+
+### Manejo de fallos en consumer con retry y DLT
+
+En `HotelSearchedEventConsumer` se utiliza `@RetryableTopic` para reintentar el procesamiento de eventos fallidos. Este está configurado de la siguiente manera:
+
+- 5 reintentos máximo
+- Backoff exponencial: empieza en 1 segundo y se multiplica por 1.5 por cada intento que pasa
+- Al agotar los reintentos, el evento se envía al DLT `hotel_availability_searches.dlt`
+- Se utiliza `@DltHandler` para dejar registro del evento descartado (a través de logs) y que se pueda revisar y reprocesar de forma manual
+
+Esto garantiza que un fallo transitorio no descarte un evento, y que un fallo persistente no bloquee el procesamiento del topic.
