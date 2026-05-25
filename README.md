@@ -269,3 +269,11 @@ En `HotelSearchedEventConsumer` se utiliza `@RetryableTopic` para reintentar el 
 - Se utiliza `@DltHandler` para dejar registro del evento descartado (a través de logs) y que se pueda revisar y reprocesar de forma manual
 
 Esto garantiza que un fallo transitorio no descarte un evento, y que un fallo persistente no bloquee el procesamiento del topic.
+
+### Idempotencia en consumer
+
+Se realizó un chequeo previo a la persistencia de la búsqueda en `SaveSearchService` a través de `existsById`. De esta forma, si ya existe una búsqueda con el `searchId` que se quiere persistir, se ignora el evento y se loguea para ver la trazabilidad.
+
+Como última defensa, `searchId` es primary key, por lo que Oracle rechazaría cualquier insert duplicado.
+
+Esta combinación hace que, al intentar reprocesar un mismo evento N veces, el resultado siempre sea el mismo, sin generar errores que terminen en la DLT por una causa que realmente no es un fallo.
