@@ -10,4 +10,5 @@ public interface PersistedHotelSearchRepository {
     void save(PersistedHotelSearch search);
     long countMatching(HotelSearch hotelSearch);
     Optional<PersistedHotelSearch> findById(UUID searchId);
+    boolean existsById(UUID searchId);
 }

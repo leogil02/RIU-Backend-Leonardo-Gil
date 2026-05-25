@@ -41,4 +41,9 @@ public class PersistedHotelSearchRepositoryAdapter implements PersistedHotelSear
                 .findById(searchId)
                 .map(PersistedHotelSearchEntityMapper::toDomain);
     }
+
+    @Override
+    public boolean existsById(UUID searchId) {
+        return repository.existsById(searchId);
+    }
 }
