@@ -277,3 +277,15 @@ Se realizó un chequeo previo a la persistencia de la búsqueda en `SaveSearchSe
 Como última defensa, `searchId` es primary key, por lo que Oracle rechazaría cualquier insert duplicado.
 
 Esta combinación hace que, al intentar reprocesar un mismo evento N veces, el resultado siempre sea el mismo, sin generar errores que terminen en la DLT por una causa que realmente no es un fallo.
+
+### Gestión del schema con Flyway
+
+El schema de la base de datos se gestiona con Flyway en lugar de delegarlo a Hibernate con `ddl-auto: update`. La configuración de Hibernate se cambia a `ddl-auto: validate`, para que verifique al arrancar que el schema coincide con las entidades JPA.
+
+Las razones principales de este cambio son:
+
+- **Control total sobre la base de datos:** los scripts se escriben manualmente y no los decide Hibernate en runtime
+- **Versionado de base de datos:** cada modificación del esquema queda registrado en la tabla `flyway_schema_history`
+- **Cobertura completa de cambios:** `ddl-auto: update` sólo agrega tablas y columnas nuevas, pero no se encarga de borrar columnas viejas, no las renombra, no cambia tipos y tampoco borra constraints. Esto puede dejar el schema en estados inconsistentes.
+
+Las migraciones se encuentran en `src/main/resources/db/migration/` y usan timestamps en sus nombres (`V{yyyyMMdd_HHmmss}__descripcion.sql`) en lugar de una numeración incremental (para evitar problemas cuando hay varias personas trabajando sobre esta base de datos en paralelo).
