@@ -17,7 +17,7 @@ Las búsquedas se publican como eventos a Kafka y se persisten asincrónicamente
 
 Desarrollar una API REST con Spring Boot que exponga dos endpoints:
 
-- `POST /search`: recibe los criterios de búsqueda de un hotel, los publica en Kafka y devuelve un searchId único.
+- `POST /search`: recibe los criterios de búsqueda de un hotel, los publica en Kafka y devuelve un searchId único. Luego se persiste la búsqueda en una base de datos Oracle de forma asíncrona (escuchando el evento que se publica).
 - `GET /count`: se envía por parámetro (llamado "searchId") y se devuelve los criterios de la búsqueda y la cantidad total de búsquedas realizadas con esos mismos criterios.
 
 ---
@@ -34,6 +34,8 @@ Desarrollar una API REST con Spring Boot que exponga dos endpoints:
 - Objetos inmutables
 - Usar últimas versiones y features de las tecnologías utilizadas
 - Validaciones de requests
+- No permitir inyecciones SQL en request
+- Peticiones thread safe
 
 
 ---
