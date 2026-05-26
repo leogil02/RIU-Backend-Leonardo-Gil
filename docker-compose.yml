@@ -80,6 +80,33 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
 
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    container_name: hotel-search-challenge-test
+    profiles: [ "test" ]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./target:/app/target
+    environment:
+      TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  k6:
+    image: grafana/k6:latest
+    container_name: hotel-search-challenge-k6
+    profiles: [ "perf" ]
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - ./k6:/scripts
+    command: run /scripts/hotel-search-load-test.js
+    network_mode: "service:app"
+
 volumes:
   oracle-data:
   kafka-data:

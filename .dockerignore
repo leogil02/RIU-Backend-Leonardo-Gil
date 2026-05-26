@@ -29,9 +29,6 @@ docker-compose.yml
 # Logs
 *.log
 
-# Tests (no necesarios en producción)
-src/test/
-
 # Documentación
 README.md
 docs/

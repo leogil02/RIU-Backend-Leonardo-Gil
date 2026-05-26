@@ -19,3 +19,8 @@ RUN apt-get update && \
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
+FROM dependencies AS test
+COPY src ./src
+ENTRYPOINT ["./mvnw"]
+CMD ["verify"]
