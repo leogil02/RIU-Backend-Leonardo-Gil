@@ -41,21 +41,22 @@ Desarrollar una API REST con Spring Boot que exponga dos endpoints:
 
 ## Tecnologías
 
-| Tecnología | Versión      | Uso |
-|---|--------------|---|
-| Java | 25           | Lenguaje principal + Virtual Threads |
-| Spring Boot | 4.0.6        | Framework principal |
-| Apache Kafka | 3.8.0        | Mensajería asincrónica (con KRaft) |
-| Oracle Free | 23-slim      | Persistencia |
-| Hibernate ORM | 7.2.12.Final | ORM |
-| Spring Data JPA | 4.0.5        | Repositorios |
-| Springdoc OpenAPI | 3.0.2        | Documentación Swagger |
-| JUnit Jupiter | 6.0.3        | Tests unitarios y de integración |
-| Mockito | 5.20.0       | Mocks en tests |
-| Testcontainers | 2.0.5        | Tests de integración con Oracle y Kafka |
-| JaCoCo | -            | Cobertura de código |
-| Grafana k6 | 2.0.0-rc1    | Tests de performance |
-| Docker / Docker Compose | -            | Dockerización del proyecto |
+| Tecnología              | Versión      | Uso                                     |
+|-------------------------|--------------|-----------------------------------------|
+| Java                    | 25           | Lenguaje principal + Virtual Threads    |
+| Spring Boot             | 4.0.6        | Framework principal                     |
+| Apache Kafka            | 3.8.0        | Mensajería asincrónica (con KRaft)      |
+| Oracle Free             | 23-slim      | Persistencia                            |
+| Hibernate ORM           | 7.2.12.Final | ORM                                     |
+| Flyway                  | 11.14.1      | Migraciones versionadas del schema      |
+| Spring Data JPA         | 4.0.5        | Repositorios                            |
+| Springdoc OpenAPI       | 3.0.2        | Documentación Swagger                   |
+| JUnit Jupiter           | 6.0.3        | Tests unitarios y de integración        |
+| Mockito                 | 5.20.0       | Mocks en tests                          |
+| Testcontainers          | 2.0.5        | Tests de integración con Oracle y Kafka |
+| JaCoCo                  | -            | Cobertura de código                     |
+| Grafana k6              | 2.0.0-rc1    | Tests de performance                    |
+| Docker / Docker Compose | -            | Dockerización del proyecto              |
 
 
 ---
