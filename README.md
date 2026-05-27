@@ -52,6 +52,7 @@ Desarrollar una API REST con Spring Boot que exponga dos endpoints:
 | Hibernate ORM           | 7.2.12.Final | ORM                                     |
 | Flyway                  | 11.14.1      | Migraciones versionadas del schema      |
 | Spring Data JPA         | 4.0.5        | Repositorios                            |
+| Spring Boot Actuator    | 4.0.6        | Health endpoint y probes de readiness   |
 | Springdoc OpenAPI       | 3.0.2        | Documentación Swagger                   |
 | JUnit Jupiter           | 6.0.3        | Tests unitarios y de integración        |
 | Mockito                 | 5.20.0       | Mocks en tests                          |
@@ -93,14 +94,9 @@ El sistema sigue una arquitectura hexagonal estricta.
 
 ## Cómo levantar
 
-**1. Clonar el repositorio:**
+**1. Copiar las variables de entorno:**
 
-```bash
-git clone https://github.com/leogil02/RIU-Backend-Leonardo-Gil
-cd RIU-Backend-Leonardo-Gil
-```
-
-**2. Copiar las variables de entorno:**
+**Esto se debe hacer dentro del directorio raíz del proyecto:**
 
 En Linux, macOS, Git Bash, PowerShell
 ```bash
@@ -114,7 +110,7 @@ copy .env.example .env
 
 El archivo `.env.example` ya tiene valores por defecto que funcionan sin modificación. Se pueden cambiar por los valores que se deseen pero esas variables deben tener valores obligatoriamente.
 
-**3. Levantar todos los servicios:**
+**2. Levantar todos los servicios:**
 
 ```bash
 docker-compose up --build -d
@@ -122,7 +118,7 @@ docker-compose up --build -d
 
 Luego de realizar ese comando, esperar a que todos los servicios estén creados y que los servicios de `kafka` y `oracle-db` estén en estado `healthy`.
 
-**4. Detener todos los servicios:**
+**3. Detener todos los servicios:**
 
 ```bash
 docker-compose down
@@ -168,15 +164,10 @@ Cabe aclarar que el orden de los ages importa. Por ejemplo, `[30, 29, 1, 3]` y `
 
 ### Correr los tests
 
-#### Solo tests unitarios
+Ejecuta tests unitarios, test de integración con Testcontainers y genera el reporte de JaCoCo. No es necesario tener Maven ni Java descargados para ejecutar estos tests.
 
 ```bash
-mvn test
-```
-
-#### Tests unitarios, de integración y reporte de cobertura (requiere Docker)
-```bash
-mvn verify
+docker compose --profile test run --rm test
 ```
 
 ### Cobertura
@@ -220,9 +211,10 @@ Tests de carga ejecutados con Grafana k6 (`k6/hotel-search-load-test.js`).
 
 ### Correr el test de performance
 
+No es necesario tener instalado k6 para poder ejecutar los tests de performance.
+
 ```bash
-# Requiere que el docker-compose esté corriendo (app, Oracle y Kafka)
-k6 run k6/hotel-search-load-test.js
+docker compose --profile perf run --rm k6
 ```
 
 ---
@@ -252,13 +244,14 @@ Spring Data JPQL no aplica `AttributeConverter` en las cláusulas `WHERE`. Al us
 
 Los tests IT usan Testcontainers para levantar Oracle y Kafka reales en Docker. La limpieza entre tests se hace con `TRUNCATE TABLE` via `JdbcTemplate` (más rápido y determinístico que `deleteAll()`). Awaitility maneja la asincronía de Kafka (evitando de esta forma `Thread.sleep`).
 
-### Dockerfile multi-stage (3 etapas)
+### Dockerfile multi-stage (4 etapas)
 
 | Stage | Funcionalidad | Descripción |
 |---|---|---|
 | 1 | Dependencias | Descarga y cachea las dependencias de Maven |
-| 2 | Builder | Compila el código fuente |
-| 3 | Runtime | Imagen final sólo con JRE |
+| 2 | Builder | Compila el código fuente para la imagen de runtime |
+| 3 | Runtime | Imagen final sólo con JRE, usada por el servicio `app` |
+| 4 | Test | Ejecuta `verify` completo (unitarios + integración + JaCoCo), usado por el servicio `test` |
 
 De esta forma, se aprovecha el caché de Docker. Si sólo se cambia código fuente (y no se modifica el pom.xml), Docker reusa la capa de dependencias y el build es mucha más rápido.
 
