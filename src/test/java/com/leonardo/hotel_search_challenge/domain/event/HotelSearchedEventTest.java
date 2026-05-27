@@ -1,5 +1,6 @@
 package com.leonardo.hotel_search_challenge.domain.event;
 
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class HotelSearchedEventTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando searchId es nulo")
     void should_throw_exception_when_searchId_is_null(){
         assertThatThrownBy(() -> new HotelSearchedEvent(null, HOTEL_SEARCH, OCCURRED_AT))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
     }
 
@@ -61,7 +62,7 @@ class HotelSearchedEventTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando hotelSearch es nulo")
     void should_throw_exception_when_hotelSearch_is_null(){
         assertThatThrownBy(() -> new HotelSearchedEvent(SEARCH_ID, null, OCCURRED_AT))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
     }
 
@@ -69,7 +70,7 @@ class HotelSearchedEventTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando occurredAt es nulo")
     void should_throw_exception_when_occurredAt_is_null(){
         assertThatThrownBy(() -> new HotelSearchedEvent(SEARCH_ID, HOTEL_SEARCH, null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'occurredAt'"));
     }
 

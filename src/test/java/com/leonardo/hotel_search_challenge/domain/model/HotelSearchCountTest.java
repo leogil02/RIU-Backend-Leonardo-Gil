@@ -1,5 +1,6 @@
 package com.leonardo.hotel_search_challenge.domain.model;
 
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class HotelSearchCountTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando searchId es nulo")
     void should_throw_exception_when_searchId_is_null(){
         assertThatThrownBy(() -> new HotelSearchCount(null, HOTEL_SEARCH, COUNT))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
     }
 
@@ -41,7 +42,7 @@ class HotelSearchCountTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando search es nulo")
     void should_throw_exception_when_search_is_null(){
         assertThatThrownBy(() -> new HotelSearchCount(SEARCH_ID, null, COUNT))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'search'"));
     }
 
@@ -50,7 +51,7 @@ class HotelSearchCountTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando count es negativo")
     void should_throw_exception_when_count_is_negative(long count){
         assertThatThrownBy(() -> new HotelSearchCount(SEARCH_ID, HOTEL_SEARCH, count))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NEGATIVE_FIELD_MESSAGE_ERROR.formatted("'count'"));
     }
 

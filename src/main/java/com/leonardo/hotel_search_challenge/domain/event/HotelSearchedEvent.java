@@ -1,5 +1,6 @@
 package com.leonardo.hotel_search_challenge.domain.event;
 
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 
@@ -14,9 +15,9 @@ public record HotelSearchedEvent(
 
     public HotelSearchedEvent{
         //Validaciones de nulos
-        if(searchId == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
-        if(hotelSearch == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
-        if(occurredAt == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'occurredAt'"));
+        if(searchId == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
+        if(hotelSearch == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
+        if(occurredAt == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'occurredAt'"));
     }
 
     public static HotelSearchedEvent create(HotelSearch hotelSearch){

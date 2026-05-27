@@ -1,5 +1,6 @@
 package com.leonardo.hotel_search_challenge.domain.model;
 
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 
 import java.time.Instant;
@@ -12,9 +13,9 @@ public record PersistedHotelSearch(
 ) {
 
     public PersistedHotelSearch{
-        if(searchId == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
-        if(hotelSearch == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
-        if(occurredAt == null) throw new IllegalArgumentException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'occurredAt'"));
+        if(searchId == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'searchId'"));
+        if(hotelSearch == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelSearch'"));
+        if(occurredAt == null) throw new DomainValidationException(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'occurredAt'"));
     }
 
 }

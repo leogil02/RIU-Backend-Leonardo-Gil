@@ -4,6 +4,7 @@ import static com.leonardo.hotel_search_challenge.TestData.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando hotelId es nulo")
     void should_throw_exception_when_hotelId_is_null(){
         assertThatThrownBy(() -> new HotelSearch(null, CHECK_IN, CHECK_OUT, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'hotelId'"));
     }
 
@@ -61,7 +62,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción con el mensaje correcto cuando hotelId es vacío")
     void should_throw_exception_when_hotelId_is_blank_or_empty(String hotelId){
         assertThatThrownBy(() -> new HotelSearch(hotelId, CHECK_IN, CHECK_OUT, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.BLANK_OR_EMPTY_FIELD_MESSAGE_ERROR.formatted("'hotelId'"));
     }
 
@@ -72,7 +73,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando checkIn es nulo")
     void should_throw_exception_when_checkIn_is_null(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, null, CHECK_OUT, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'checkIn'"));
     }
 
@@ -80,7 +81,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando checkOut es nulo")
     void should_throw_exception_when_checkOut_is_null(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, null, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'checkOut'"));
     }
 
@@ -88,7 +89,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando checkIn es igual a checkOut")
     void should_throw_exception_when_checkIn_equals_checkOut(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_IN, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.CHECK_IN_BEFORE_CHECK_OUT_MESSAGE_ERROR);
     }
 
@@ -96,7 +97,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando checkIn es posterior a checkOut")
     void should_throw_exception_when_checkIn_is_after_checkOut(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_OUT, CHECK_IN, AGES))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.CHECK_IN_BEFORE_CHECK_OUT_MESSAGE_ERROR);
     }
 
@@ -107,7 +108,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando ages sea nulo")
     void should_throw_exception_when_ages_is_null(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_OUT, null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'ages'"));
     }
 
@@ -115,7 +116,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando ages esté vacío")
     void should_throw_exception_when_ages_is_empty(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_OUT, List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.BLANK_OR_EMPTY_FIELD_MESSAGE_ERROR.formatted("'ages'"));
     }
 
@@ -123,7 +124,7 @@ class HotelSearchTest {
     @DisplayName("Debe lanzar excepción cuando algún elemento de ages sea menor a cero")
     void should_throw_exception_when_ages_have_negative_element(){
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_OUT, List.of(30, -1, -5)))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NEGATIVE_FIELD_MESSAGE_ERROR.formatted("'age' del listado 'ages'"));
     }
 
@@ -136,7 +137,7 @@ class HotelSearchTest {
         agesWithNull.add(5);
 
         assertThatThrownBy(() -> new HotelSearch(HOTEL_ID, CHECK_IN, CHECK_OUT, agesWithNull))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DomainValidationException.class)
                 .hasMessage(GlobalMessages.NULL_FIELD_MESSAGE_ERROR.formatted("'age' del listado 'ages'"));
     }
 
