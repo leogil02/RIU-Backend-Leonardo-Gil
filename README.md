@@ -78,10 +78,63 @@ El sistema sigue una arquitectura hexagonal estricta.
 | Application | Use cases y services |
 | Infrastructure | Adaptador REST, Kafka producer y consumer, adaptador de persistencia JPA con Oracle |
 
+### Diagramas de secuencia
+
+#### POST /search
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'actorBkg': '#406987', 'actorTextColor': '#FFFFFF', 'actorBorder': '#000000'}}}%%
+sequenceDiagram
+    actor Client as Cliente
+    participant Ctrl as Controller
+    participant Search as SearchHotelService
+    participant Kafka as Kafka Topic
+    participant Save as SaveSearchService
+    participant DB as Oracle
+
+    rect rgb(220, 235, 255)
+        Note over Client,Kafka: POST /search (sincrónica)
+        Client->>Ctrl: POST /search<br>(SearchRequest)
+        Ctrl->>Search: searchHotel(HotelSearch)
+        Search->>Kafka: publish(HotelSearchedEvent)
+        Search-->>Ctrl: searchId(UUID)
+        Ctrl-->>Client: 200 OK (SearchResponse)
+    end
+
+    rect rgb(255, 235, 220)
+        Note over Kafka,DB: Procesamiento asíncrono del evento
+        Kafka->>Save: handleHotelSearchedEvent<br>(HotelSearchedEvent)
+        Save->>DB: save<br>(PersistedHotelSearch)
+    end
+```
+
+#### GET /count
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'actorBkg': '#406987', 'actorTextColor': '#FFFFFF', 'actorBorder': '#000000'}}}%%
+sequenceDiagram
+    actor Client as Cliente
+    participant Ctrl as Controller
+    participant DB as Oracle
+    participant Count as CountEqualSearchesService
+
+    rect rgb(220, 255, 220)
+        Note over Client,DB: GET /count (sincrónica)
+        Client->>Ctrl: GET /count?searchId={UUID}
+        Ctrl->>Count: count(searchId)
+        Count->>DB: findById(searchId)
+        DB-->>Count: PersistedHotelSearch
+        Count->>DB: countMatching(HotelSearch)
+        DB-->>Count: count (long)
+        Count-->>Ctrl: HotelSearchCount
+        Ctrl-->>Client: 200 OK (SearchCountResponse)
+    end
+```
+
 ---
 
 
-## Pre - requisitos
+## Prerrequisitos
 
 - Docker instalado y corriendo.
 - Puertos libres:
