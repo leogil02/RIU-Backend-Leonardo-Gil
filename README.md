@@ -252,13 +252,13 @@ Tests de carga ejecutados con Grafana k6 (`k6/hotel-search-load-test.js`).
 
 ### Resultados
 
-| Métrica | Resultado | Threshold |
-|---|---|---|
-| p(95) response time | 6.62ms | < 500ms ✅ |
-| Error rate | 0.00% | < 1% ✅ |
-| Throughput | 157 req/s | - |
-| Checks exitosos | 100% (11898/11898) | - |
-| Iteraciones completas | 3966 | - |
+| Métrica               | Resultado          | Threshold |
+|-----------------------|--------------------|-----------|
+| p(95) response time   | 3.75ms             | < 500ms ✅ |
+| Error rate            | 0.00%              | < 1% ✅    |
+| Throughput            | 159 req/s          | -         |
+| Checks exitosos       | 100% (11991/11991) | -         |
+| Iteraciones completas | 3997               | -         |
 
 ![k6 Results](docs/images/k6-results.png)
 
@@ -338,3 +338,15 @@ Las razones principales de este cambio son:
 - **Cobertura completa de cambios:** `ddl-auto: update` sólo agrega tablas y columnas nuevas, pero no se encarga de borrar columnas viejas, no las renombra, no cambia tipos y tampoco borra constraints. Esto puede dejar el schema en estados inconsistentes.
 
 Las migraciones se encuentran en `src/main/resources/db/migration/` y usan timestamps en sus nombres (`V{yyyyMMdd_HHmmss}__descripcion.sql`) en lugar de una numeración incremental (para evitar problemas cuando hay varias personas trabajando sobre esta base de datos en paralelo).
+
+### Índice compuesto en la tabla `hotel_searches`
+
+La query de `countMatching` que utiliza `GET /count` para contar la cantidad de coincidencias exactas de búsqueda filtra por `hotel_id`, `check_in`, `check_out` y `ages`.
+
+Sin un índice apropiado, la base de datos haría un escaneo completo de la tabla para buscar las coincidencias, lo que daría como resultado tiempos de espera cada vez más altos conforme la cantidad de registros crezca.
+
+Para evitar esto, se creó un índice compuesto sobre las cuatro columnas utilizadas para esa búsqueda.
+
+El overhead del índice en los `INSERT` es despreciable (microsegundos), mientras que la mejora en la lectura es muy alta.
+
+El impacto fue medido: en los tests de carga con k6, el `p(95)` bajó de 6.62 ms a 3.75 ms (un 43% de mejora). La diferencia de latencia crece conforme la tabla crece en registros.
