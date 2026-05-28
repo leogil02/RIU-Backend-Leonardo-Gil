@@ -225,12 +225,12 @@ docker compose --profile test run --rm test
 
 ### Cobertura
 
-| Métrica | Cobertura |
-|---|---|
-| Instructions | 93% |
-| Branches | 97% |
-| Lines | 92% |
-| Methods | 94% |
+| Métrica      | Cobertura |
+|--------------|-----------|
+| Instructions | 93%       |
+| Branches     | 98%       |
+| Lines        | 92%       |
+| Methods      | 93%       |
 
 El reporte completo se genera en `target/site/jacoco/index.html`.
 
