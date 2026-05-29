@@ -249,6 +249,7 @@ Tests de carga ejecutados con Grafana k6 (`k6/hotel-search-load-test.js`).
 - Carga sostenida de 50 usuarios durante 30 segundos.
 - Ramp-down de 50 a 0 usuarios en 10 segundos.
 - Cada iteración ejecuta el flujo completo: `POST /search` → polling `GET /count` hasta confirmar persistencia.
+- Todas las iteraciones utilizan el mismo criterio de búsqueda (hardcodeado en el script: hotelId `1234aBc`, checkIn `29/12/2023`, checkOut `31/12/2023`, ages `[30, 29, 1, 3]`). Esto permite que el `GET /count` valide la persistencia del evento previo en cada iteración.
 
 ### Resultados
 
@@ -269,6 +270,8 @@ No es necesario tener instalado k6 para poder ejecutar los tests de performance.
 ```bash
 docker compose --profile perf run --rm k6
 ```
+
+Al finalizar la ejecución, la tabla `hotel_searches` queda poblada con aproximadamente 4000 registros, todos con los mismos criterios de búsqueda. Por lo tanto, una llamada manual a `GET /count` con esos mismos criterios después del test devolverá un valor cercano a esa cantidad. Para limpiar la base entre ejecuciones se pueden bajar los volúmenes con `docker-compose down -v`.
 
 ---
 
