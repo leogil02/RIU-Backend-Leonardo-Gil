@@ -286,11 +286,18 @@ Ambas entidades tienen los mismos datos, pero son conceptos distintos. En un fut
 Esta separación desacopla el modelo de mensajería con el de persistencia.
 
 
-### `AgeConverter` con serialización por coma
+### `AgeConverter` con serialización CSV
 
-JPA mapea `List<Integer>` con `@ElementCollection`, lo que genera una tabla secundaria y complica la comparación por orden en el `GET /count`. Habría que reconstruir el array en SQL y compararlo posición por posición.
+El requisito del endpoint de `GET /count` es comparar listas de edades **preservando el orden**: `[30, 29, 1, 3]` y `[1, 3, 29, 30]` deben contarse como búsquedas distintas.
 
-La solución fue serializar las edades, ya que comparar un String con las edades separadas por comas es mucho más simple porque el orden queda preservado de forma más natural.
+Las opciones evaluadas fueron:
+
+- **`@ElementCollection`** (mapeo JPA estándar): genera una tabla hija con una columna `position` para preservar el orden, pero el query del `GET /count` se vuelve complejo (JOIN + comparación posición por posición). Una variante sería reconstruir el CSV con `LISTAGG(age, ',') WITHIN GROUP (ORDER BY position)`, pero esa función es específica de Oracle, lo cual acoplaría la solución al motor.
+- **CSV con `AttributeConverter`**: serializa la lista como `"30,29,1,3"` en una columna `VARCHAR2`. La comparación es trivial (`WHERE ages = :ages`) y el orden queda preservado por el formato mismo del string.
+
+Se eligió la segunda opción por su simplicidad en el hot path del sistema. Como contrapartida, no permite queries sobre edades individuales (ej: "todas las búsquedas con al menos un menor"), lo que no es un requisito actual.
+
+La decisión es reversible a bajo costo: la serialización está aislada en el `AttributeConverter`, por lo que migrar a una tabla hija o cualquier otra estructura implicaría cambios contenidos en el converter, la entidad y una nueva migración Flyway. El dominio (`HotelSearch.ages` sigue siendo `List<Integer>`) y los services no se enteran del cambio.
 
 ### Query nativa en `countMatching`
 
