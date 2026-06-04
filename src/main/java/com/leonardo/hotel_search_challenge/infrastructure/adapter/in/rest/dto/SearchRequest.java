@@ -18,12 +18,12 @@ public record SearchRequest(
 
         @NotNull(message = "El campo 'checkIn' no puede estar vacío")
         @JsonFormat(pattern = "dd/MM/yyyy")
-        @Schema(example = "29/12/2023")
+        @Schema(example = "29/12/2027")
         LocalDate checkIn,
 
         @NotNull(message = "El campo 'checkOut' no puede estar vacío")
         @JsonFormat(pattern = "dd/MM/yyyy")
-        @Schema(example = "31/12/2023")
+        @Schema(example = "31/12/2027")
         LocalDate checkOut,
 
         @NotEmpty(message = "El campo 'ages' no puede estar vacío")

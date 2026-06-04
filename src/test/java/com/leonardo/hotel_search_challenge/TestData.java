@@ -20,9 +20,12 @@ public final class TestData {
     public static final UUID SEARCH_ID =
             UUID.fromString("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
 
+    public static final LocalDate TODAY = LocalDate.now();
+
     public static final String HOTEL_ID = "1234aBc";
-    public static final LocalDate CHECK_IN = LocalDate.of(2023, 12, 29);
-    public static final LocalDate CHECK_OUT = LocalDate.of(2023, 12, 31);
+    public static final LocalDate CHECK_IN = TODAY.plusDays(14);
+    public static final LocalDate CHECK_IN_BEFORE_TODAY = TODAY.minusDays(1);
+    public static final LocalDate CHECK_OUT = TODAY.plusDays(21);
     public static final List<Integer> AGES = List.of(30, 29, 1, 3);
     public static final Instant OCCURRED_AT = Instant.parse("2023-12-15T10:30:00Z");
     public static final long COUNT = 100L;

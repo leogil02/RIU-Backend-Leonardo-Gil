@@ -39,8 +39,8 @@ export default function () {
     // POST /search
     const payload = JSON.stringify({
         hotelId: '1234aBc',
-        checkIn: '29/12/2023',
-        checkOut: '31/12/2023',
+        checkIn: '29/12/2027',
+        checkOut: '31/12/2027',
         ages: [30, 29, 1, 3],
     });
 

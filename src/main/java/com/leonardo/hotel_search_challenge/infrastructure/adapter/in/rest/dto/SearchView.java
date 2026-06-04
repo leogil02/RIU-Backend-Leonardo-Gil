@@ -12,11 +12,11 @@ public record SearchView(
         String hotelId,
 
         @JsonFormat(pattern = "dd/MM/yyyy")
-        @Schema(example = "29/12/2023")
+        @Schema(example = "29/12/2027")
         LocalDate checkIn,
 
         @JsonFormat(pattern = "dd/MM/yyyy")
-        @Schema(example = "31/12/2023")
+        @Schema(example = "31/12/2027")
         LocalDate checkOut,
 
         @Schema(example = "[3, 29, 30, 1]")

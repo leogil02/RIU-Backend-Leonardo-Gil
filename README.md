@@ -249,7 +249,7 @@ Tests de carga ejecutados con Grafana k6 (`k6/hotel-search-load-test.js`).
 - Carga sostenida de 50 usuarios durante 30 segundos.
 - Ramp-down de 50 a 0 usuarios en 10 segundos.
 - Cada iteración ejecuta el flujo completo: `POST /search` → polling `GET /count` hasta confirmar persistencia.
-- Todas las iteraciones utilizan el mismo criterio de búsqueda (hardcodeado en el script: hotelId `1234aBc`, checkIn `29/12/2023`, checkOut `31/12/2023`, ages `[30, 29, 1, 3]`). Esto permite que el `GET /count` valide la persistencia del evento previo en cada iteración.
+- Todas las iteraciones utilizan el mismo criterio de búsqueda (hardcodeado en el script: hotelId `1234aBc`, checkIn `29/12/2027`, checkOut `31/12/2027`, ages `[30, 29, 1, 3]`). Esto permite que el `GET /count` valide la persistencia del evento previo en cada iteración.
 
 ### Resultados
 

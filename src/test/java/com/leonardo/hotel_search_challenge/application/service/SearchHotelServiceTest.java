@@ -2,6 +2,9 @@ package com.leonardo.hotel_search_challenge.application.service;
 
 import com.leonardo.hotel_search_challenge.application.port.out.HotelSearchedEventPublisher;
 import com.leonardo.hotel_search_challenge.domain.event.HotelSearchedEvent;
+import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
+import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
+import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static com.leonardo.hotel_search_challenge.TestData.HOTEL_SEARCH;
+import static com.leonardo.hotel_search_challenge.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
@@ -45,6 +48,21 @@ class SearchHotelServiceTest {
                 () -> assertThat(event.searchId()).isEqualTo(result),
                 () -> assertThat(event.hotelSearch()).isEqualTo(HOTEL_SEARCH)
         );
+
+    }
+    
+    @Test
+    @DisplayName("Debe lanzar excepción cuando la fecha del checkIn es anterior al dia de hoy")
+    void should_throw_exception_when_checkIn_is_before_today(){
+
+        HotelSearch hotelSearch = new HotelSearch(HOTEL_ID, CHECK_IN_BEFORE_TODAY, CHECK_OUT, AGES);
+
+        assertThatThrownBy(() -> service.searchHotel(hotelSearch))
+                .isInstanceOf(DomainValidationException.class)
+                .hasMessage(GlobalMessages.CHECK_IN_BEFORE_TODAY_ERROR);
+
+        //Verificación de que no se publica nada en Kafka
+        verifyNoInteractions(publisher);
 
     }
 
