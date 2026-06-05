@@ -284,7 +284,7 @@ Para que la capa de `application` esté libre de dependencias del framework, los
 - Cada caso de uso se registra como un `@Bean` en `UseCasesBeanConfiguration` (en infrastructure)
 - El manejo de transacciones se delega a decorators en `infrastructure`. Estos envuelven el service con `@Transactional`
 
-De esta forma, la lógica de la aplicación sea testeable sin el contexto de Spring (lo cual hace mucho más rápidos los tests)
+De esta forma, la lógica de la aplicación es testeable sin el contexto de Spring (lo cual hace mucho más rápidos los tests)
 
 ### Separación `HotelSearchedEvent` y `PersistedHotelSearch`
 
