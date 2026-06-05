@@ -277,6 +277,15 @@ Al finalizar la ejecución, la tabla `hotel_searches` queda poblada con aproxima
 
 ## Decisiones de diseño
 
+### Manejo de @Service y @Transactional en la capa de `application`
+
+Para que la capa de `application` esté libre de dependencias del framework, los servicios no utilizan `@Service` ni `@Transactional`.
+
+- Cada caso de uso se registra como un `@Bean` en `UseCasesBeanConfiguration` (en infrastructure)
+- El manejo de transacciones se delega a decorators en `infrastructure`. Estos envuelven el service con `@Transactional`
+
+De esta forma, la lógica de la aplicación sea testeable sin el contexto de Spring (lo cual hace mucho más rápidos los tests)
+
 ### Separación `HotelSearchedEvent` y `PersistedHotelSearch`
 
 `HotelSearchedEvent` es el evento de dominio que viaja por Kafka, mientras que `PersistedHotelSearch` es la entidad que se persiste en Oracle.
