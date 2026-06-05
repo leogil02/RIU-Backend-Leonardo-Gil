@@ -5,12 +5,9 @@ import com.leonardo.hotel_search_challenge.application.port.out.PersistedHotelSe
 import com.leonardo.hotel_search_challenge.domain.exception.SearchNotFoundException;
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearchCount;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
 public class CountEqualSearchesService implements CountEqualSearchesUseCase {
 
     private final PersistedHotelSearchRepository persistedHotelSearchRepository;
@@ -19,7 +16,6 @@ public class CountEqualSearchesService implements CountEqualSearchesUseCase {
         this.persistedHotelSearchRepository = persistedHotelSearchRepository;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public HotelSearchCount count(UUID searchId) {
         return persistedHotelSearchRepository

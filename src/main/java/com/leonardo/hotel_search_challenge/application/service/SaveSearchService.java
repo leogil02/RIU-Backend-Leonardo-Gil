@@ -5,10 +5,7 @@ import com.leonardo.hotel_search_challenge.application.port.out.PersistedHotelSe
 import com.leonardo.hotel_search_challenge.domain.model.PersistedHotelSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public class SaveSearchService implements SaveSearchUseCase {
 
     private static final Logger log = LoggerFactory.getLogger(SaveSearchService.class);
@@ -18,7 +15,6 @@ public class SaveSearchService implements SaveSearchUseCase {
         this.persistedHotelSearchRepository = persistedHotelSearchRepository;
     }
 
-    @Transactional
     @Override
     public void save(PersistedHotelSearch search) {
         if(persistedHotelSearchRepository.existsById(search.searchId())){

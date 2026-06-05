@@ -6,12 +6,10 @@ import com.leonardo.hotel_search_challenge.domain.event.HotelSearchedEvent;
 import com.leonardo.hotel_search_challenge.domain.exception.DomainValidationException;
 import com.leonardo.hotel_search_challenge.domain.model.HotelSearch;
 import com.leonardo.hotel_search_challenge.domain.shared.GlobalMessages;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Service
 public class SearchHotelService implements SearchHotelUseCase {
 
     private final HotelSearchedEventPublisher hotelSearchedEventPublisher;
